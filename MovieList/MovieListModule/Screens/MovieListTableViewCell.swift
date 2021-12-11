@@ -11,8 +11,14 @@ final class MovieListTableViewCell: UITableViewCell {
     
     // MARK: - Constant
     
-    private enum Constan {
-        
+    private enum Constant {
+        static let borderWidth: CGFloat = 1
+        static let verticalPadding: CGFloat = 5
+        static let horizontalPadding: CGFloat = 15
+        static let padding: CGFloat = 5
+        static let imageWidth: CGFloat = 110
+        static let imageHeight: CGFloat = 160
+
     }
     
     // MARK: - Properties
@@ -36,13 +42,19 @@ final class MovieListTableViewCell: UITableViewCell {
         view.layer.shadowOpacity = 0.1
         view.layer.shadowOffset = CGSize.zero
         view.layer.shadowRadius = 2
+        view.backgroundColor = Theme.Palette.backgroundColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private var posterImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.borderColor  = UIColor.gray.cgColor
+        imageView.layer.borderWidth  = Constant.borderWidth
+        imageView.backgroundColor    = Theme.Palette.tertiaryColor
+        imageView.layer.cornerRadius = 18.75
+        imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -87,6 +99,10 @@ final class MovieListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
+        self.backgroundColor = Theme.Palette.clear
+        setupUI()
+        setupConstraints()
     }
     
     override func prepareForReuse() {
@@ -102,7 +118,7 @@ final class MovieListTableViewCell: UITableViewCell {
     // MARK: - Private Methods
     
     private func setupUI() {
-        contentView.addSubview(containerView)
+        self.addSubview(containerView)
         containerView.addSubview(posterImageView)
         containerView.addSubview(textContainerView)
         textContainerView.addSubview(movieNameLabel)
@@ -111,6 +127,21 @@ final class MovieListTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
+        addConstraints([containerView.topAnchor.constraint(equalTo: topAnchor, constant: Constant.verticalPadding),
+                        containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Constant.verticalPadding),
+                        containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constant.horizontalPadding),
+                        containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constant.horizontalPadding)])
+        
+        addConstraints([posterImageView.heightAnchor.constraint(equalToConstant: Constant.imageHeight),
+                        posterImageView.widthAnchor.constraint(equalToConstant: Constant.imageWidth),
+                        posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Constant.padding),
+                        posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: Constant.padding),
+                        posterImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Constant.padding)])
+        
+        addConstraints([textContainerView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: Constant.padding),
+                        textContainerView.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -Constant.padding),
+                        textContainerView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: Constant.horizontalPadding),
+                        textContainerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.padding)])
         
     }
     

@@ -15,5 +15,8 @@ struct Theme {
         static let labelColor: UIColor = .label
         static let secondaryLabelColor: UIColor = .secondaryLabel
         static let shadowColor: UIColor = .gray
+        static let tertiaryColor: UIColor = .lightGray
+        static let backgroundColor: UIColor = .systemBackground
+        static let secondaryBackgroundColor: UIColor = .secondarySystemBackground
     }
 }

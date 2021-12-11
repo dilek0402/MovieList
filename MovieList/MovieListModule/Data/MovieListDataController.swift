@@ -12,7 +12,7 @@ final class MovieListDataController: MovieListDataProtocol {
     // MARK: - Constant Enum
     
     private enum Constant {
-        static let path = "/3/movie/popular?api_key="
+        static let path = "3/movie/popular?api_key="
         static let pagingKey = "&page="
     }
     

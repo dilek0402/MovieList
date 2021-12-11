@@ -18,6 +18,7 @@ final class MovieListViewController: UIViewController {
     // MARK: - Properties
     
     var viewModel: MovieListViewModel!
+    var pageCount: Int = 1
     
     // MARK: - Layout Properties
     
@@ -26,7 +27,7 @@ final class MovieListViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Theme.Palette.clear
+        tableView.backgroundColor = Theme.Palette.backgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MovieListTableViewCell.self, forCellReuseIdentifier: Constant.cellId)
         return tableView
@@ -36,6 +37,10 @@ final class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+        setupTableView()
+        viewModel.delegate = self
+        viewModel.fetchMovie(page: pageCount)
     }
     
     // MARK: - Private  Methods
@@ -48,23 +53,42 @@ final class MovieListViewController: UIViewController {
     private func setupConstraints() {
         self.view.addConstraints([movieTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
                                   movieTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-                                  movieTableView.leadingAnchor.constraint(equalTo: self.view.leftAnchor),
+                                  movieTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
                                   movieTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
         self.view.layoutIfNeeded()
+    }
+    
+    private func setupTableView() {
+        movieTableView.delegate = self
+        movieTableView.dataSource = self
     }
 }
 
 extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        viewModel.numberOfServices
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constant.cellId,
                                                     for: indexPath) as? MovieListTableViewCell {
+            cell.configureCell(item: viewModel.items[indexPath.row])
             return cell
         }
         return UITableViewCell()
+    }
+}
+
+// MARK: - ViewModel Delegate
+extension MovieListViewController: MovieListViewModelDelegate {
+    func moviesLoaded() {
+        DispatchQueue.main.async {
+            self.movieTableView.reloadData()
+        }
+    }
+    
+    func loadingActive(state: Bool) {
+        
     }
     
     

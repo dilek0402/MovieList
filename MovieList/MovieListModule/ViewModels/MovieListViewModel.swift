@@ -5,13 +5,30 @@
 //  Created by Dilek Eminoğlu on 11.12.2021.
 //
 
+import Foundation
+
 final class MovieListViewModel {
     
     // MARK: - Private Properties
     
     private var dataController:MovieListDataController
     private var router: MovieListRouter
-    private var mv: Movies?
+    
+    
+    // MARK: - Public Properties
+    
+    weak var delegate: MovieListViewModelDelegate?
+    
+    var items: [Movie] = [] {
+        didSet {
+            delegate?.moviesLoaded()
+        }
+    }
+    
+    var numberOfServices: Int {
+        items.count
+    }
+
     
     // MARK: - Init
     
@@ -32,7 +49,14 @@ final class MovieListViewModel {
             guard let model = resultModel else {
                 return
             }
-            self?.mv = model
+            self?.items.append(contentsOf: model.results)
         }
     }
+}
+
+// MARK: - Delegate
+
+protocol MovieListViewModelDelegate: NSObject {
+    func moviesLoaded()
+    func loadingActive(state: Bool)
 }
