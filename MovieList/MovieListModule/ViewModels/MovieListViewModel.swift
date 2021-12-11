@@ -11,6 +11,7 @@ final class MovieListViewModel {
     
     private var dataController:MovieListDataController
     private var router: MovieListRouter
+    private var mv: Movies?
     
     // MARK: - Init
     
@@ -20,7 +21,18 @@ final class MovieListViewModel {
         self.router = router
     }
     
-    // MARK: - Public Methods
-
     
+    // MARK: - Public Methods
+    
+    func fetchMovie(page: Int) {
+        dataController.fetchMovies(page: page) { [weak self] resultModel, error in
+            if error != nil {
+                return
+            }
+            guard let model = resultModel else {
+                return
+            }
+            self?.mv = model
+        }
+    }
 }

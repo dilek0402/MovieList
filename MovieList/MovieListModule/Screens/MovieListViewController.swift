@@ -27,8 +27,6 @@ final class MovieListViewController: UIViewController {
         return tableView
     }()
 
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
     }
