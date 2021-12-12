@@ -18,6 +18,8 @@
 		D7E4AD6E2764D9D000EBA998 /* MoviesDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E4AD6D2764D9D000EBA998 /* MoviesDataModel.swift */; };
 		D7E4AD702764E8EE00EBA998 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E4AD6F2764E8EE00EBA998 /* Theme.swift */; };
 		D7E4AD722764E99600EBA998 /* MovieListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E4AD712764E99600EBA998 /* MovieListTableViewCell.swift */; };
+		D7E4AD752766116700EBA998 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E4AD742766116700EBA998 /* ImageCache.swift */; };
+		D7E4AD772766121D00EBA998 /* ImageURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E4AD762766121D00EBA998 /* ImageURLProtocol.swift */; };
 		D7FF5A152763BBF200B8181A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FF5A142763BBF200B8181A /* AppDelegate.swift */; };
 		D7FF5A172763BBF200B8181A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FF5A162763BBF200B8181A /* SceneDelegate.swift */; };
 		D7FF5A192763BBF200B8181A /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FF5A182763BBF200B8181A /* MovieListViewController.swift */; };
@@ -58,6 +60,8 @@
 		D7E4AD6D2764D9D000EBA998 /* MoviesDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesDataModel.swift; sourceTree = "<group>"; };
 		D7E4AD6F2764E8EE00EBA998 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		D7E4AD712764E99600EBA998 /* MovieListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListTableViewCell.swift; sourceTree = "<group>"; };
+		D7E4AD742766116700EBA998 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		D7E4AD762766121D00EBA998 /* ImageURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageURLProtocol.swift; sourceTree = "<group>"; };
 		D7FF5A112763BBF200B8181A /* MovieList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7FF5A142763BBF200B8181A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7FF5A162763BBF200B8181A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 		D7E4AD562764A0EB00EBA998 /* MovieListModule */ = {
 			isa = PBXGroup;
 			children = (
+				D7E4AD732766114F00EBA998 /* Hepler */,
 				D7E4AD5C2764A17B00EBA998 /* Data */,
 				D7E4AD5B2764A17100EBA998 /* Router */,
 				D7E4AD5A2764A16600EBA998 /* Screens */,
@@ -173,6 +178,23 @@
 				D7E4AD6D2764D9D000EBA998 /* MoviesDataModel.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		D7E4AD732766114F00EBA998 /* Hepler */ = {
+			isa = PBXGroup;
+			children = (
+				D7E4AD7A2766133500EBA998 /* ImageHelper */,
+			);
+			path = Hepler;
+			sourceTree = "<group>";
+		};
+		D7E4AD7A2766133500EBA998 /* ImageHelper */ = {
+			isa = PBXGroup;
+			children = (
+				D7E4AD742766116700EBA998 /* ImageCache.swift */,
+				D7E4AD762766121D00EBA998 /* ImageURLProtocol.swift */,
+			);
+			path = ImageHelper;
 			sourceTree = "<group>";
 		};
 		D7FF5A082763BBF200B8181A = {
@@ -355,6 +377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7E4AD752766116700EBA998 /* ImageCache.swift in Sources */,
 				D7E4AD5E2764A21900EBA998 /* MovieDetailViewController.swift in Sources */,
 				D7E4AD6A2764D6B300EBA998 /* NetworkConfiguration.swift in Sources */,
 				D7E4AD642764A8AE00EBA998 /* MovieListDataProtocol.swift in Sources */,
@@ -363,6 +386,7 @@
 				D7E4AD662764A8DE00EBA998 /* MovieListViewModel.swift in Sources */,
 				D7E4AD622764A87500EBA998 /* MovieListDataController.swift in Sources */,
 				D7E4AD6E2764D9D000EBA998 /* MoviesDataModel.swift in Sources */,
+				D7E4AD772766121D00EBA998 /* ImageURLProtocol.swift in Sources */,
 				D7FF5A152763BBF200B8181A /* AppDelegate.swift in Sources */,
 				D7E4AD602764A29700EBA998 /* MovieListRouter.swift in Sources */,
 				D7E4AD722764E99600EBA998 /* MovieListTableViewCell.swift in Sources */,
