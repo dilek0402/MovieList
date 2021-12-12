@@ -44,6 +44,7 @@ final class MovieListViewModel {
     // MARK: - Public Methods
     
     func fetchMovie(page: Int) {
+        delegate?.loadingActive(state: true)
         dataController.fetchMovies(page: page) { [weak self] resultModel, error in
             if error != nil {
                 return
@@ -51,6 +52,7 @@ final class MovieListViewModel {
             guard let model = resultModel else {
                 return
             }
+            self?.delegate?.loadingActive(state: false)
             self?.totalPage = model.totalPages
             self?.items.append(contentsOf: model.results)
         }

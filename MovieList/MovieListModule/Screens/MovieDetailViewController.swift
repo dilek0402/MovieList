@@ -89,7 +89,6 @@ final class MovieDetailViewController: UIViewController {
         containerView.addSubview(containerStackView)
         containerStackView.addArrangedSubview(nameLabel)
         containerStackView.addArrangedSubview(overviewLabel)
-        
     }
     
     private func applyStyling() {

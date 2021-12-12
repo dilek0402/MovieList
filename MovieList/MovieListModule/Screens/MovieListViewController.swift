@@ -34,6 +34,13 @@ final class MovieListViewController: UIViewController {
         return tableView
     }()
     
+    private var loader: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(style: .large)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicatorView
+    }()
+    
+    
     // MARK: Override Methods
     
     override func viewDidLoad() {
@@ -49,6 +56,7 @@ final class MovieListViewController: UIViewController {
     
     private func setupUI() {
         self.view.addSubview(movieTableView)
+        self.view.addSubview(loader)
         setupConstraints()
     }
     
@@ -57,6 +65,8 @@ final class MovieListViewController: UIViewController {
                                   movieTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
                                   movieTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
                                   movieTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
+        self.view.addConstraints([loader.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+                                  loader.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
     }
     
     private func setupTableView() {
@@ -97,8 +107,11 @@ extension MovieListViewController: MovieListViewModelDelegate {
             self.movieTableView.reloadData()
         }
     }
+    
     func loadingActive(state: Bool) {
-        
+        DispatchQueue.main.async {
+            state ? self.loader.startAnimating() : self.loader.stopAnimating()
+        }
     }
 }
 
