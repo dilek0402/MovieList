@@ -20,4 +20,9 @@ struct NetworkConfiguration {
     static  var language: String {
         return "&language=en-US"
     }
+    
+    static  var imagePath: String {
+        return "https://image.tmdb.org/t/p/w500"
+    }
+    
 }

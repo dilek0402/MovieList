@@ -18,7 +18,6 @@ final class MovieListTableViewCell: UITableViewCell {
         static let padding: CGFloat = 5
         static let imageWidth: CGFloat = 110
         static let imageHeight: CGFloat = 160
-
     }
     
     // MARK: - Properties
@@ -26,8 +25,14 @@ final class MovieListTableViewCell: UITableViewCell {
     private var movie: Movie? {
         didSet {
             if let movie = movie {
-                airDateLabel.text = movie.firstAirDate
-                movieNameLabel.text = movie.name
+                movieNameLabel.text = movie.title
+                airDateLabel.text = movie.releaseDate
+                if let average = movie.voteAverage {
+                    ratingLabel.text = String(describing: average)
+                }
+                if let imagePath = movie.posterPath {
+                    downloadImage(path: imagePath)
+                }
             }
         }
     }
@@ -67,8 +72,8 @@ final class MovieListTableViewCell: UITableViewCell {
     
     private var movieNameLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
-        label.textAlignment = .right
+        label.numberOfLines = 2
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Theme.Palette.labelColor
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -78,7 +83,7 @@ final class MovieListTableViewCell: UITableViewCell {
     private var airDateLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.textAlignment = .right
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Theme.Palette.secondaryLabelColor
         label.font = UIFont.preferredFont(forTextStyle: .callout)
@@ -88,7 +93,7 @@ final class MovieListTableViewCell: UITableViewCell {
     private var ratingLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.textAlignment = .right
+        label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Theme.Palette.secondaryLabelColor
         label.font = UIFont.preferredFont(forTextStyle: .callout)
@@ -143,6 +148,34 @@ final class MovieListTableViewCell: UITableViewCell {
                         textContainerView.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: Constant.horizontalPadding),
                         textContainerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -Constant.padding)])
         
+        addConstraints([movieNameLabel.topAnchor.constraint(equalTo: textContainerView.topAnchor, constant: Constant.padding),
+                        movieNameLabel.bottomAnchor.constraint(equalTo: airDateLabel.topAnchor, constant: -Constant.padding),
+                        movieNameLabel.leadingAnchor.constraint(equalTo: textContainerView.leadingAnchor, constant: Constant.horizontalPadding),
+                        movieNameLabel.trailingAnchor.constraint(equalTo: textContainerView.trailingAnchor, constant: -Constant.padding)])
+        addConstraints([airDateLabel.topAnchor.constraint(equalTo: movieNameLabel.bottomAnchor, constant: Constant.padding),
+                        airDateLabel.bottomAnchor.constraint(equalTo: ratingLabel.topAnchor, constant: -Constant.padding),
+                        airDateLabel.leadingAnchor.constraint(equalTo: textContainerView.leadingAnchor, constant: Constant.horizontalPadding),
+                        airDateLabel.trailingAnchor.constraint(equalTo: textContainerView.trailingAnchor, constant: -Constant.padding)])
+        
+        addConstraints([ratingLabel.topAnchor.constraint(equalTo: airDateLabel.bottomAnchor, constant: Constant.padding),
+                        ratingLabel.leadingAnchor.constraint(equalTo: textContainerView.leadingAnchor, constant: Constant.horizontalPadding),
+                        ratingLabel.trailingAnchor.constraint(equalTo: textContainerView.trailingAnchor, constant: -Constant.padding)])
+        
+    }
+    
+    private func downloadImage(path: String) {
+        let urlString = NetworkConfiguration.imagePath + path
+        guard let imageUrl = URL(string: urlString) else {
+            return
+        }
+        
+        ImageCache.publicCache.load(url: imageUrl as NSURL) { image in
+            if let image = image {
+                DispatchQueue.main.async {
+                    self.posterImageView.image = image
+                }
+            }
+        }
     }
     
     // MARK: - Public Methods
