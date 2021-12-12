@@ -13,6 +13,7 @@ final class MovieListViewController: UIViewController {
     
     private enum Constant {
         static let cellId = "reuseIdentifier"
+        static let title = "Movies"
     }
     
     // MARK: - Properties
@@ -27,7 +28,7 @@ final class MovieListViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
-        tableView.backgroundColor = Theme.Palette.backgroundColor
+        tableView.backgroundColor = Theme.Palette.secondaryBackgroundColor
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(MovieListTableViewCell.self, forCellReuseIdentifier: Constant.cellId)
         return tableView
@@ -37,6 +38,7 @@ final class MovieListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyStyling()
         setupUI()
         setupTableView()
         viewModel.delegate = self
@@ -55,12 +57,16 @@ final class MovieListViewController: UIViewController {
                                   movieTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
                                   movieTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
                                   movieTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
-        self.view.layoutIfNeeded()
     }
     
     private func setupTableView() {
         movieTableView.delegate = self
         movieTableView.dataSource = self
+    }
+    
+    private func applyStyling() {
+        self.view.backgroundColor = Theme.Palette.backgroundColor
+        self.title = Constant.title
     }
 }
 
@@ -77,6 +83,11 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return UITableViewCell()
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = viewModel.items[indexPath.row]
+        viewModel.proceedToMovieDetailViewController(movie: item)
+    }
 }
 
 // MARK: - ViewModel Delegate
@@ -86,11 +97,26 @@ extension MovieListViewController: MovieListViewModelDelegate {
             self.movieTableView.reloadData()
         }
     }
-    
     func loadingActive(state: Bool) {
         
     }
-    
-    
+}
+
+// MARK: - Paging
+
+extension MovieListViewController {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView,
+                                  willDecelerate decelerate: Bool) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height {
+            pageCount += 1
+            if pageCount < viewModel.totalPage {
+                viewModel.fetchMovie(page: pageCount)
+            }
+        }
+    }
 }
 

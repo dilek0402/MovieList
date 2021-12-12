@@ -27,9 +27,14 @@ final class MovieListRouter {
 
 extension MovieListRouter {
     
-    func proceedToMovieDetailViewController() {
+    func proceedToMovieDetailViewController(movie: Movie) {
         let controller = MovieDetailViewController()
-        let viewModel = MovieDetailViewModel()
-        initialViewController = controller
+        let dataController = MovieListDataController()
+        let viewModel = MovieDetailViewModel(dataController: dataController,
+                                             router: self)
+        viewModel.item = movie
+        controller.viewModel = viewModel
+        initialViewController.navigationController?.pushViewController(controller,
+                                                                       animated: true)
     }
 }

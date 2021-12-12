@@ -28,7 +28,9 @@ final class MovieListViewModel {
     var numberOfServices: Int {
         items.count
     }
-
+    
+    var totalPage: Int = 1
+    
     
     // MARK: - Init
     
@@ -49,8 +51,13 @@ final class MovieListViewModel {
             guard let model = resultModel else {
                 return
             }
+            self?.totalPage = model.totalPages
             self?.items.append(contentsOf: model.results)
         }
+    }
+    
+    func proceedToMovieDetailViewController(movie: Movie) {
+        router.proceedToMovieDetailViewController(movie: movie)
     }
 }
 
