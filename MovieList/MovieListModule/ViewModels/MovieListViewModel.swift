@@ -58,7 +58,14 @@ final class MovieListViewModel {
         }
     }
     
-    func proceedToMovieDetailViewController(movie: Movie) {
+    func selectMovieItem(index: Int) {
+        let item = items[index]
+        proceedToMovieDetailViewController(movie: item)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func proceedToMovieDetailViewController(movie: Movie) {
         router.proceedToMovieDetailViewController(movie: movie)
     }
 }

@@ -95,8 +95,7 @@ extension MovieListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = viewModel.items[indexPath.row]
-        viewModel.proceedToMovieDetailViewController(movie: item)
+        viewModel.selectMovieItem(index: indexPath.row)
     }
 }
 
